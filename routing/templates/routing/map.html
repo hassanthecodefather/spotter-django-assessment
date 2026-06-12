@@ -1,0 +1,70 @@
+{% extends "routing/base.html" %}
+
+{% block title %}Route Map - Fuel Route Optimizer{% endblock %}
+
+{% block content %}
+<h1>Route map</h1>
+{{ route_data|json_script:"route-data" }}
+<div id="map" class="route-map route-map-full"></div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+  var data = JSON.parse(document.getElementById('route-data').textContent);
+  var map = L.map('map');
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18
+  }).addTo(map);
+
+  function decodePolyline(encoded) {
+    var points = [];
+    var index = 0, lat = 0, lng = 0;
+    while (index < encoded.length) {
+      var shift = 0, result = 0, b;
+      do { b = encoded.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+      lat += (result & 1) ? ~(result >> 1) : (result >> 1);
+      shift = 0; result = 0;
+      do { b = encoded.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+      lng += (result & 1) ? ~(result >> 1) : (result >> 1);
+      points.push([lat / 1e5, lng / 1e5]);
+    }
+    return points;
+  }
+
+  var coords = decodePolyline(data.route_geometry);
+  var poly = L.polyline(coords, {color: '#1a6fc4', weight: 4}).addTo(map);
+
+  function icon(n) {
+    return L.divIcon({
+      className: 'stop-icon',
+      html: '<span>' + n + '</span>',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    });
+  }
+
+  var stops = data.fuel.stops;
+  stops.forEach(function (s, i) {
+    var popup = '<b>' + s.name + '</b><br>' +
+      s.city + ', ' + s.state + '<br>' +
+      '$' + s.price_per_gallon.toFixed(3) + '/gal &nbsp; ' +
+      s.gallons_purchased.toFixed(1) + ' gal &nbsp; $' + s.cost_usd.toFixed(2);
+    L.marker([s.lat, s.lng], {icon: icon(i + 1)})
+      .addTo(map)
+      .bindPopup(popup);
+  });
+
+  L.marker([data.start.lat, data.start.lng], {
+    icon: L.divIcon({className: 'stop-icon start-icon', html: 'S', iconSize: [24,24], iconAnchor: [12,12]})
+  }).addTo(map).bindPopup('<b>Start</b><br>' + data.start.resolved_city);
+
+  L.marker([data.finish.lat, data.finish.lng], {
+    icon: L.divIcon({className: 'stop-icon end-icon', html: 'F', iconSize: [24,24], iconAnchor: [12,12]})
+  }).addTo(map).bindPopup('<b>Finish</b><br>' + data.finish.resolved_city);
+
+  map.fitBounds(poly.getBounds(), {padding: [30, 30]});
+}());
+</script>
+{% endblock %}

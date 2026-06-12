@@ -1,0 +1,46 @@
+"""Predefined US city locations available as enum options.
+
+This list is the single source of truth for both the API (/api/v1/locations/)
+and the web UI dropdowns. Every value is a valid input to /api/v1/route/.
+"""
+
+LOCATIONS = [
+    {"label": "Albuquerque, NM", "value": "Albuquerque, NM"},
+    {"label": "Atlanta, GA",      "value": "Atlanta, GA"},
+    {"label": "Austin, TX",       "value": "Austin, TX"},
+    {"label": "Baltimore, MD",    "value": "Baltimore, MD"},
+    {"label": "Boston, MA",       "value": "Boston, MA"},
+    {"label": "Charlotte, NC",    "value": "Charlotte, NC"},
+    {"label": "Chicago, IL",      "value": "Chicago, IL"},
+    {"label": "Dallas, TX",       "value": "Dallas, TX"},
+    {"label": "Denver, CO",       "value": "Denver, CO"},
+    {"label": "Detroit, MI",      "value": "Detroit, MI"},
+    {"label": "El Paso, TX",      "value": "El Paso, TX"},
+    {"label": "Fort Worth, TX",   "value": "Fort Worth, TX"},
+    {"label": "Houston, TX",      "value": "Houston, TX"},
+    {"label": "Indianapolis, IN", "value": "Indianapolis, IN"},
+    {"label": "Jacksonville, FL", "value": "Jacksonville, FL"},
+    {"label": "Kansas City, MO",  "value": "Kansas City, MO"},
+    {"label": "Las Vegas, NV",    "value": "Las Vegas, NV"},
+    {"label": "Los Angeles, CA",  "value": "Los Angeles, CA"},
+    {"label": "Louisville, KY",   "value": "Louisville, KY"},
+    {"label": "Memphis, TN",      "value": "Memphis, TN"},
+    {"label": "Miami, FL",        "value": "Miami, FL"},
+    {"label": "Milwaukee, WI",    "value": "Milwaukee, WI"},
+    {"label": "Minneapolis, MN",  "value": "Minneapolis, MN"},
+    {"label": "Nashville, TN",    "value": "Nashville, TN"},
+    {"label": "New Orleans, LA",  "value": "New Orleans, LA"},
+    {"label": "New York, NY",     "value": "New York, NY"},
+    {"label": "Oklahoma City, OK","value": "Oklahoma City, OK"},
+    {"label": "Omaha, NE",        "value": "Omaha, NE"},
+    {"label": "Philadelphia, PA", "value": "Philadelphia, PA"},
+    {"label": "Phoenix, AZ",      "value": "Phoenix, AZ"},
+    {"label": "Portland, OR",     "value": "Portland, OR"},
+    {"label": "San Antonio, TX",  "value": "San Antonio, TX"},
+    {"label": "San Diego, CA",    "value": "San Diego, CA"},
+    {"label": "San Francisco, CA","value": "San Francisco, CA"},
+    {"label": "San Jose, CA",     "value": "San Jose, CA"},
+    {"label": "Seattle, WA",      "value": "Seattle, WA"},
+    {"label": "Tucson, AZ",       "value": "Tucson, AZ"},
+    {"label": "Washington, DC",   "value": "Washington, DC"},
+]

@@ -1,0 +1,60 @@
+{% extends "routing/base.html" %}
+{% load static %}
+
+{% block title %}Plan a Route - Fuel Route Optimizer{% endblock %}
+
+{% block content %}
+<section class="planner">
+  <h1>Find the cheapest fuel stops on your route</h1>
+  <p class="hint">Type a US city name or coordinates ("34.05,-118.24") to get started.</p>
+
+  <form id="route-form" class="route-form" novalidate>
+    {% csrf_token %}
+    <div class="form-row ac-wrap">
+      <label for="start">Start</label>
+      <input id="start" name="start" type="text"
+             placeholder="e.g. Los Angeles, CA" autocomplete="off" required>
+      <div id="start-dropdown" class="ac-dropdown hidden"></div>
+    </div>
+    <div class="form-row ac-wrap">
+      <label for="finish">Finish</label>
+      <input id="finish" name="finish" type="text"
+             placeholder="e.g. New York, NY" autocomplete="off" required>
+      <div id="finish-dropdown" class="ac-dropdown hidden"></div>
+    </div>
+    <button id="submit-btn" type="submit">Calculate route</button>
+  </form>
+
+  <div id="error-banner" class="error-banner hidden" role="alert"></div>
+
+  <div id="results" class="results hidden">
+    <div class="summary-strip" id="summary-strip"></div>
+    <div id="map" class="route-map"></div>
+    <h2>Fuel stops</h2>
+    <table class="stops-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Station</th>
+          <th>City / State</th>
+          <th>Mile</th>
+          <th>Price/gal</th>
+          <th>Gallons</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody id="stops-tbody"></tbody>
+    </table>
+    <p class="map-link-row"><a id="map-page-link" href="#" target="_blank">Open full map</a></p>
+  </div>
+</section>
+
+{# Pass page config to JS safely via json_script. #}
+{% with page_config='{"apiUrl":"/api/v1/route/","locationsUrl":"/api/v1/locations/"}' %}
+  {{ page_config|json_script:"page-config" }}
+{% endwith %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'routing/app.js' %}"></script>
+{% endblock %}
