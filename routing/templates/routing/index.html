@@ -49,10 +49,7 @@
   </div>
 </section>
 
-{# Pass page config to JS safely via json_script. #}
-{% with page_config='{"apiUrl":"/api/v1/route/","locationsUrl":"/api/v1/locations/"}' %}
-  {{ page_config|json_script:"page-config" }}
-{% endwith %}
+<script id="page-config" type="application/json">{"apiUrl":"/api/v1/route/","locationsUrl":"/api/v1/locations/"}</script>
 {% endblock %}
 
 {% block extra_js %}

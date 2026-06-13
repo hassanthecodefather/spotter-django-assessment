@@ -71,8 +71,9 @@
     });
 
     input.addEventListener('focus', function () {
-      if (input.value.trim().length >= 2 && dropdown.innerHTML === '') {
-        query = input.value.trim();
+      if (dropdown.innerHTML === '') {
+        var val = input.value.trim();
+        query = val.length >= 2 ? val : '';
         fetchPage(true);
       }
     });
